@@ -14,6 +14,7 @@ export default class NomineeSelectionPage extends LightningElement {
     selectedCampaign
     selectedContact;
     description;
+    hasNomineeAdded = false;
     @wire(getContactList, {queryTerm:'$queryTerm'})
     wiredContacts(response){
         this.contacts = response.data;
@@ -50,7 +51,6 @@ export default class NomineeSelectionPage extends LightningElement {
                 })
             );
         }else{
-
             createNominee({nominationId: this.selectedNomination, contactId: this.selectedContact, description: this.description})
             .then( () => {
                 this.dispatchEvent(
@@ -70,7 +70,9 @@ export default class NomineeSelectionPage extends LightningElement {
                     })
                 );
             });
+            this.hasNomineeAdded = true;
         }
+
     }
 
     handleClickViewForm(evt) {

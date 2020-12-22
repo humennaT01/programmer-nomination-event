@@ -1,36 +1,22 @@
 <template>
     <lightning-card>
         <template if:false={hasVoted}>
-            <lightning-input type="email" label="Email address" onchange={handleEmailChange}></lightning-input>
+            <p>Email address</p>
+            <lightning-input type="email" lable="Email address" placeholder="Enter your email!" onchange={handleEmailChange}></lightning-input>
             <template if:true={campaign}>
                 <lightning-layout-item>
-                    <!-- <lightning-combobox
-                    name="campaign"
-                    label="Campaign"
-                    value={selectedCampaign}
-                    placeholder="Select Campaign"
-                    options={campaignOptions}
-                    onchange={handleCampaignChange} ></lightning-combobox> -->
-                    <p>{campaign.Name}</p>
+                    <p class="campain">{campaign.Name}</p>
                 </lightning-layout-item>
                 <template if:true={nominations}>
-                        <!-- <lightning-combobox
-                        name="nomination"
-                        label="Nomination"
-                        value={selectedNomination}
-                        placeholder="Select Nomination"
-                        options={nominationOptions}
-                        onchange={handleNominationChange}>
-                        </lightning-combobox> -->
                     <template for:each={nominations} for:item="nomination">
                         <div key={nomination.Id}>
-                            <p >{nomination.Name}</p>
+                            <p>{nomination.Name}</p>
                             <p hidden>{updateContacts}</p>
                             <template if:true={nomination.contacts}>
                                 <template for:each={nomination.contacts} for:item="contact">
                                     <lightning-layout-item onclick={handleClickViewForm} data-id1={contact.Id} data-id2={nomination.Id} key={contact} size="2" class="slds-var-p-around_x-small">
                                         <lightning-record-view-form record-id={contact.Id} object-api-name="Contact">
-                                            <div class="slds-box"> 
+                                            <div class="box">
                                             <lightning-output-field field-name="FirstName">
                                             </lightning-output-field>
                                             <lightning-output-field field-name="LastName">
@@ -45,7 +31,7 @@
                             </template>
                         </div>
                     </template>
-                    <lightning-button variant="brand" label="Submit" title="Primary action" onclick={handleClickButton} class="slds-m-left_x-small"></lightning-button>
+                    <lightning-button variant="destructive" label="Submit" title="Primary action" onclick={handleClickButton} class="slds-m-left_x-small"></lightning-button>
                 </template>
                 <template if:false={nominations}>
                     <p>There are no nominations!</p>
@@ -57,7 +43,9 @@
         </template>
         <template if:true={hasVoted}>
             <p>Thank you for your vote!</p>
-            <a href='https://mindful-unicorn-rri44c-dev-ed.lightning.force.com/lightning/page/home'>Return to Home</a>
+            <form action="https://creative-unicorn-ixi1bs-dev-ed.lightning.force.com/lightning/page/home">
+                <input class="button" type="submit" value="Home" />
+            </form>
         </template>    
     </lightning-card>
 </template>

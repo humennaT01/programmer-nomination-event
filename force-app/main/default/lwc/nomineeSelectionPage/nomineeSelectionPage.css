@@ -1,0 +1,55 @@
+template{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: black;
+    padding: 10px;
+    left: 1cm;
+}
+
+lightning-layout-item{
+    font-family: Arial, Verdana, sans-serif;
+    font-size: 15px;
+    color: black;
+}
+
+lightning-combobox{
+    font-family: Arial, Verdana, sans-serif;
+    color: #434343;
+    padding: 10px;
+}
+lightning-record-view-form{
+    padding: 2cm;
+}
+
+div.box{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #434343;
+    cursor: pointer; 
+    padding: 15px;
+    border: 1px solid #adadad;
+    background-color: #e9eeff;
+}
+
+lightning-input{
+    font-family: Arial, Verdana, sans-serif;
+    cursor: text;
+    padding: 10px;
+} 
+
+lightning-input-rich-text{
+    font-family: Arial, Verdana, sans-serif;
+    cursor: text;
+    padding: 10px;
+}
+
+lightning-button.button{
+    padding: 45%;
+}
+
+p{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    color: #2b2b2b;
+    /* left: 40px; */
+    padding: 10px;
+    position: static;
+}

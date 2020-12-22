@@ -1,0 +1,63 @@
+template{
+    font-family: Arial, Verdana, sans-serif;
+    color: black;
+    padding: 10px;
+}
+
+lightning-input{
+    cursor: text;
+    padding: 10px;
+}
+
+lightning-layout-item{
+    font-family: Arial, Verdana, sans-serif;
+    color: black;
+}
+
+div.box{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #434343;
+    cursor: pointer; 
+    padding: 15px;
+    border: 1px solid #adadad;
+    background-color: #e9eeff;
+}
+/* :hover{
+    background-color: #c3d1ff;
+} */
+
+p.campain{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 25px;
+    color: black;
+    left: 40px;
+    padding: 20px;
+    position: static;
+}
+
+p{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+    color: #1b1b1b;
+    left: 20px;
+    padding: 10px;
+    position:sticky;
+}
+
+form{
+    padding: 15px;
+}
+.button{
+    border: 1px solid black;
+    background-color: #ff000065;
+    border-radius: 6px;
+    font-size: 20px;
+}
+.button:focus{
+    border: 1px solid black;
+    background-color: #96000065;
+}
+.button:hover {
+    background-color: #af4c4c; 
+    color: white;
+}
