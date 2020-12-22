@@ -1,0 +1,56 @@
+<template>
+    <lightning-card>
+            <template if:true={campaigns}>
+                <lightning-layout-item>
+                    <lightning-combobox
+                    name="campaign"
+                    label="Campaign"
+                    value={selectedCampaign}
+                    placeholder="Select Campaign"
+                    options={campaignOptions}
+                    onchange={handleCampaignChange} ></lightning-combobox>
+                </lightning-layout-item>
+                <template if:true={nominations}>
+                    <lightning-layout-item>
+                        <lightning-combobox
+                        name="nomination"
+                        label="Nomination"
+                        value={selectedNomination}
+                        placeholder="Select Nomination"
+                        options={nominationOptions}
+                        onchange={handleNominationChange}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                </template>
+            </template>
+                <div>
+                    <lightning-input  
+                        onchange={handleSearchChange}
+                        name="enter-search"
+                        label="Search when user hits the 'enter' key"
+                        type="search"
+                    ></lightning-input>
+                </div>
+                <template if:true={queryTerm}>
+                    <template for:each={contacts} for:item="contact">
+                        <lightning-layout-item onclick={handleClickViewForm} data-id={contact.Id} key={contact.Id} size="3" class="slds-var-p-around_x-small">
+                            <lightning-record-view-form record-id={contact.Id} object-api-name="Contact">
+                                <div class="slds-box"> 
+                                <lightning-output-field field-name="FirstName">
+                                </lightning-output-field>
+                                <lightning-output-field field-name="LastName">
+                                </lightning-output-field>
+                                </div>
+                            </lightning-record-view-form>
+                        </lightning-layout-item>
+                    </template>
+                    <template if:true={selectedContact}>
+                            <lightning-input-rich-text name="description" label="Description" placeholder="Enter a reason of your choice..." required onchange={handleDescriptionChange}></lightning-input-rich-text>
+                            <lightning-button variant="brand" label="Submit" title="Primary action" onclick={handleClickButton} class="slds-m-left_x-small"></lightning-button>
+                    </template>
+                </template> 
+            <template if:false={nominations}>
+                <p>There are no nominations!</p>
+            </template>
+    </lightning-card>
+</template>
