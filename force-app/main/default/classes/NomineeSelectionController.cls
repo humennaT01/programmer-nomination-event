@@ -19,9 +19,6 @@ public with sharing class NomineeSelectionController {
 
     @AuraEnabled
     public static void createNominee(Id nominationId, Id contactId, String description) {
-        System.debug(nominationId);
-        System.debug(contactId);
-        System.debug(description);
         CandidateNomination__c newNominee = new CandidateNomination__c(NominationId__c = nominationId, Nominees__c = contactId, Description__c = description);
         insert newNominee;
     }

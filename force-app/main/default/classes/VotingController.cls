@@ -23,16 +23,13 @@ public with sharing class VotingController {
 
     @AuraEnabled
     public static List<Nomination__c> getNominationList(Id campaign){
-        System.debug('campaign: ' + campaign);
         List<Nomination__c> nominations = [SELECT Id, Name FROM Nomination__c WHERE CampaignId__c = :campaign];
-        System.debug('nominations: ' + nominations);
         return nominations;
     }
 
     @AuraEnabled
     public static Campaign getCampaignList(){
         Campaign campaignC =  [SELECT Id, Name FROM Campaign WHERE Type = 'Voting'  AND IsActive = true][0];
-        System.debug('campaignC: ' + campaignC);
         return campaignC;
     }
 
@@ -47,13 +44,11 @@ public with sharing class VotingController {
         Id voterId = getVoter(email);
         List<CandidateNomination__c>  nominees  = [SELECT Id, NominationId__c, Nominees__c FROM CandidateNomination__c WHERE NominationId__c in :finalVotes.keySet() AND Nominees__c in :finalVotes.values() AND Type__c = 'Master'];
         List<Vote__c> votes = new List<Vote__c>();
-        System.debug('nominees: ' + nominees);
         for(CandidateNomination__c cnItem : nominees){
             if(cnItem.Nominees__c == finalVotes.get(cnItem.NominationId__c)){
                 votes.add(new Vote__c(VoterId__c = voterId, CandidateNominationId__c = cnItem.Id));
             }
         }
         insert votes;
-        System.debug('votes: ' + votes);
     }
 }

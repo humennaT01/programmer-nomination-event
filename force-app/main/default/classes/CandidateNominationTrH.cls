@@ -1,16 +1,5 @@
 public with sharing class CandidateNominationTrH implements ITriggerHandler{
 
-    // public static Boolean TriggerDisabled = false;
-
-    // public Boolean IsDisabled()
-    // {
-    //     if (TriggerSettings__c.CandidateNominationTriggerDisabled__c = true)
-    //         return true;
-    //     else
-    //         return TriggerDisabled;
-    // }
-    
-
     public void BeforeInsert(List<SObject> newRecord) {
 
         List<CandidateNomination__c> master_candidates = [SELECT ID, NominationId__c, Nominees__c, Description__c

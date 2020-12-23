@@ -14,7 +14,7 @@ lightning-layout-item{
     color: black;
 }
 
-div.box{
+.box{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: #434343;
     cursor: pointer; 
@@ -22,9 +22,9 @@ div.box{
     border: 1px solid #adadad;
     background-color: #e9eeff;
 }
-/* :hover{
+.box:hover{
     background-color: #c3d1ff;
-} */
+}
 
 p.campain{
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;

@@ -7,5 +7,4 @@ public interface ITriggerHandler
     void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems);
     void AfterDelete(Map<Id, SObject> oldItems);
     void AfterUndelete(Map<Id, SObject> oldItems);
-     // Boolean IsDisabled();
 }

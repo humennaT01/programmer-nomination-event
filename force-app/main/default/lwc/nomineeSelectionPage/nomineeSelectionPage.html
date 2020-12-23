@@ -38,6 +38,7 @@
                         placeholder="Start to write nominee name."
                         type="search">
                     </lightning-input>
+            
                 </div>
                 <template if:true={queryTerm}>
                     <template for:each={contacts} for:item="contact">
@@ -57,9 +58,18 @@
                             <lightning-input-rich-text name="description" label="Description" placeholder="Enter a reason of your choice..." required onchange={handleDescriptionChange}></lightning-input-rich-text>
                             <lightning-button variant="destructive" label="Submit" title="Primary action" onclick={handleClickButton} class="button"></lightning-button>
                     </template>
+                    <template if:true={hasAdded}>
+                        <p>Thank you!</p>
+                        <form action="https://creative-unicorn-ixi1bs-dev-ed.lightning.force.com/lightning/page/home">
+                            <input class="button-end" type="submit" value="Home" />
+                        </form>
+                        <form action="https://creative-unicorn-ixi1bs-dev-ed.lightning.force.com/lightning/n/Nominee_Selection">
+                            <input class="button-end" type="submit" value="New Nominee" />
+                        </form>
+                    </template>
                 </template> 
             <template if:false={nominations}>
-                <p>There are no nominations!</p>
+                <p class="err">There are no nominations!</p>
             </template>   
     </lightning-card>
 </template>
