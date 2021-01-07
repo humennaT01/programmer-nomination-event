@@ -20,6 +20,10 @@ public with sharing class NomineeSelectionController {
     @AuraEnabled
     public static void createNominee(Id nominationId, Id contactId, String description) {
         CandidateNomination__c newNominee = new CandidateNomination__c(NominationId__c = nominationId, Nominees__c = contactId, Description__c = description);
-        insert newNominee;
+        try{
+            insert newNominee;
+        } catch (DmlException ex){
+            throw new AuraHandledException(ex.getDmlMessage(0));
+        }
     }
 }

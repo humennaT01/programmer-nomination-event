@@ -49,6 +49,10 @@ public with sharing class VotingController {
                 votes.add(new Vote__c(VoterId__c = voterId, CandidateNominationId__c = cnItem.Id));
             }
         }
-        insert votes;
+        try{
+            insert votes;
+        } catch (DmlException ex){
+            throw new AuraHandledException(ex.getDmlMessage(0));
+        }
     }
 }
