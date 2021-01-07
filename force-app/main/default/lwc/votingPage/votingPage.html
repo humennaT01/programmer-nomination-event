@@ -42,10 +42,8 @@
             </template>
         </template>
         <template if:true={hasVoted}>
-            <p>Thank you for your vote!</p>
-            <form action="https://creative-unicorn-ixi1bs-dev-ed.lightning.force.com/lightning/page/home">
-                <input class="button" type="submit" value="Home" />
-            </form>
-        </template>    
+            <p class='campaign-name'>Thank you for your vote!</p>
+        </template>   
+        <lightning-button label="Go to Home" class="slds-var-m-around_medium" onclick={navigateToHome}></lightning-button>   
     </lightning-card>
 </template>
