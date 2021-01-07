@@ -1,17 +1,25 @@
 public with sharing class CandidateNominationTrH implements ITriggerHandler{
 
     public void BeforeInsert(List<SObject> newRecord) {
-
-        List<CandidateNomination__c> master_candidates = [SELECT ID, NominationId__c, Nominees__c, Description__c
-                                                        FROM CandidateNomination__c WHERE Type__c = 'Master'];
-        for (CandidateNomination__c cc : (List<CandidateNomination__c>)newRecord) {
-            cc.Type__c='Master';
+        Set<Id> nominationsIds = new Set<Id>();
+        Set<Id> nomineesIds = new Set<Id>();
+        List<CandidateNomination__c> newCNRecord = (List<CandidateNomination__c>)newRecord;
+        for(CandidateNomination__c cnItem : newCNRecord){
+            nominationsIds.add(cnItem.NominationId__c);
+            nomineesIds.add(cnItem.Nominees__c);
+        }
+        List<CandidateNomination__c> master_candidates = [SELECT ID, NominationId__c, Nominees__c, Description__c, Type__c, CreatedById
+                                                        FROM CandidateNomination__c WHERE Type__c = 'Master' AND NominationId__c IN :nominationsIds AND Nominees__c IN :nomineesIds];                             
+        for (CandidateNomination__c cc : newCNRecord) {
+            cc.Type__c = 'Master';
             for (CandidateNomination__c  ccmaster : master_candidates) {
-                if(cc.NominationId__c == ccmaster.NominationId__c 
-                    && cc.Nominees__c == ccmaster.Nominees__c){
-                        cc.Type__c = 'Child';
-                        cc.MasterRecordID__c = ccmaster.Id;
+                if(cc.NominationId__c == ccmaster.NominationId__c && cc.Nominees__c == ccmaster.Nominees__c){
+                    cc.Type__c = 'Child';
+                    cc.MasterRecordID__c = ccmaster.Id;
                 }
+            }
+            if(cc.Type__c == 'Master'){
+                master_candidates.add(cc);
             }
         }
     }
