@@ -1,4 +1,5 @@
 public with sharing class VoteTrH implements ITriggerHandler {
+
     public void BeforeInsert(List<SObject> newItems){
         List<Vote__c> newVotes = (List<Vote__c>)newItems;
         Map<Id,CandidateNomination__c> candNomMap = new Map<Id,CandidateNomination__c>();
@@ -11,13 +12,13 @@ public with sharing class VoteTrH implements ITriggerHandler {
         for(CandidateNomination__c candNom : candNomMap.values()){
             newNominations.add(candNom.NominationId__c);
         }
-        //Take only Nominee in with same nominations as in new votes
+        //Take only CN in with same nominations as in new votes
         List<CandidateNomination__c> masterCN = [SELECT Id FROM CandidateNomination__c WHERE Type__c = 'Master' AND NominationId__c IN :newNominations];
         //Take only votes with same nominations as in new votes
         List<Vote__c> votes = [SELECT Id, VoterId__c, CandidateNominationId__r.NominationId__c
                                 FROM Vote__c WHERE CandidateNominationId__r.NominationId__c IN :newNominations];
         for(Vote__c newVote : newVotes){
-            //add auto link votes to muster CN in BeforeInsert
+            //To vote only for Master Nominee, not Child
             Id newVoteMasterRecord = candNomMap.get(newVote.CandidateNominationId__c).MasterRecordID__c;
             if(newVoteMasterRecord != null){
                 newVote.CandidateNominationId__c = newVoteMasterRecord;
@@ -32,21 +33,7 @@ public with sharing class VoteTrH implements ITriggerHandler {
         }
     }
 
-    public void AfterInsert(Map<Id, SObject> newItems){
-        Set<String> insertedVotesId = new Set<String>();
-        for(Vote__c vote : (List<Vote__c>)newItems.values()){
-            insertedVotesId.add(vote.Id);
-        }
-        List<Vote__c> votes = [SELECT Id, VoterId__c, CandidateNominationId__r.MasterRecordID__c
-                                FROM Vote__c WHERE Id IN :insertedVotesId];
-        for(Vote__c vote : votes){
-            if(vote.CandidateNominationId__r.MasterRecordID__c != null){
-                vote.CandidateNominationId__c = vote.CandidateNominationId__r.MasterRecordID__c;
-            }
-        }
-        update votes;
-    }
-
+    public void AfterInsert(Map<Id, SObject> newItems){}
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){}
     public void BeforeDelete(Map<Id, SObject> oldItems){}
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){}
