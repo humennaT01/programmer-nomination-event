@@ -1,75 +1,76 @@
 <template>
     <lightning-card>
+        <template if:false={hasVoted}>
             <template if:true={campaigns}>
-                <p>Campaign
                 <lightning-layout-item>
-                    <lightning-combobox
-                        class="campaign"
-                        name="campaign"
-                        
-                        value={selectedCampaign}
-                        placeholder="Select Campaign"
-                        options={campaignOptions}
-                        onchange={handleCampaignChange}>
-                    </lightning-combobox>
+                    <lightning-combobox class="campaign-name"
+                    name="campaign"
+                    label="Campaign"
+                    value={selectedCampaign}
+                    placeholder="Select Campaign"
+                    options={campaignOptions}
+                    onchange={handleCampaignChange} ></lightning-combobox>
                 </lightning-layout-item>
-            </p>
                 <template if:true={nominations}>
-                    <p>Nomination
                     <lightning-layout-item>
-                        <lightning-combobox
-                        class="nomination"
+                        <lightning-combobox class="campaign-name"
                         name="nomination"
-                       
+                        label="Nomination"
                         value={selectedNomination}
                         placeholder="Select Nomination"
                         options={nominationOptions}
                         onchange={handleNominationChange}>
                         </lightning-combobox>
                     </lightning-layout-item>
-                </p>
+                    <template if:true={selectedNomination}>
+                        <div>
+                            <lightning-input class="campaign-name"
+                                onchange={handleSearchChange}
+                                name="enter-search"
+                                label="Search when user hits the 'enter' key"
+                                type="search"
+                            ></lightning-input>
+                        </div>
+                        <template if:true={queryTerm}>
+                            <template if:false={selectedContact}>
+                                <p class="campaign-name">Please select nominee from the list</p>
+                            </template>
+                            <div class="wrapper">
+                                <template for:each={contacts} for:item="contact">
+                                    <lightning-layout-item class='fields-wrapper' key={contact}  onclick={handleClickViewForm} data-id={contact.Id}>
+                                        <lightning-record-view-form record-id={contact.Id} object-api-name="Contact">
+                                                <img class="profile-picture inline-field" src={contact.Avatar__c} alt="Profile picture">
+                                                <lightning-output-field class='inline-field' field-name="FirstName">
+                                                </lightning-output-field>
+                                                <lightning-output-field class='inline-field' field-name="LastName">
+                                                </lightning-output-field>
+                                                <lightning-output-field class='inline-field' field-name="Department">
+                                                </lightning-output-field>
+                                        </lightning-record-view-form>
+                                    </lightning-layout-item>
+                                </template>
+                            </div>
+                            <template if:true={selectedContact}>
+                                    <lightning-textarea class='campaign-name' name="description" label="Description" placeholder="Enter a reason of your choice..." required onchange={handleDescriptionChange}></lightning-textarea>
+                                    <lightning-button variant="brand" label="Submit" title="Primary action" onclick={handleClickButton} class="slds-m-left_x-small"></lightning-button>
+                            </template>
+                        </template> 
+                    </template>
+                    <template if:false={selectedNomination}>
+                        <p class="campaign-name">Please select nomination from the list</p>
+                    </template>
+                </template>
+                <template if:false={nominations}>
+                    <p class="campaign-name">Please select campaign from the list</p>
                 </template>
             </template>
-                <div>
-                    <p>Search</p>
-                    <lightning-input 
-                        onchange={handleSearchChange}
-                        name="enter-search"
-                        placeholder="Start to write nominee name."
-                        type="search">
-                    </lightning-input>
-            
-                </div>
-                <template if:true={queryTerm}>
-                    <template for:each={contacts} for:item="contact">
-                        <lightning-layout-item onclick={handleClickViewForm} data-id={contact.Id} key={contact.Id} size="3" class="slds-var-p-around_x-small">
-                            <lightning-record-view-form record-id={contact.Id} object-api-name="Contact">
-                                <div class="box"> 
-                                    <lightning-output-field field-name="FirstName">
-                                    </lightning-output-field>
-                                    <lightning-output-field field-name="LastName">
-                                    </lightning-output-field>
-                                </div>
-                            </lightning-record-view-form>
-                        </lightning-layout-item>
-                    </template>
-                    <template if:true={selectedContact}>
-                            <p>Description</p>
-                            <lightning-input-rich-text name="description" label="Description" placeholder="Enter a reason of your choice..." required onchange={handleDescriptionChange}></lightning-input-rich-text>
-                            <lightning-button variant="destructive" label="Submit" title="Primary action" onclick={handleClickButton} class="button"></lightning-button>
-                    </template>
-                    <template if:true={hasAdded}>
-                        <p>Thank you!</p>
-                        <form action="https://creative-unicorn-ixi1bs-dev-ed.lightning.force.com/lightning/page/home">
-                            <input class="button-end" type="submit" value="Home" />
-                        </form>
-                        <form action="https://creative-unicorn-ixi1bs-dev-ed.lightning.force.com/lightning/n/Nominee_Selection">
-                            <input class="button-end" type="submit" value="New Nominee" />
-                        </form>
-                    </template>
-                </template> 
-            <template if:false={nominations}>
-                <p class="err">There are no nominations!</p>
-            </template>   
+            <template if:false={campaigns}>
+                <p class="campaign-name">There are no campaigns avaliable!</p>
+            </template>
+        </template>
+        <template if:true={hasVoted}>
+            <p class='campaign-name'>Thank you for selecting Nominee!</p>
+            <a href='/lightning/page/home' class='campaign-name'>Return to Home</a>
+        </template> 
     </lightning-card>
 </template>
