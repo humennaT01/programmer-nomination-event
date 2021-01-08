@@ -41,8 +41,14 @@ public with sharing class VotingController {
 
     @AuraEnabled
     public static void createVote(Map<Id, Id> finalVotes, String email) {
+        System.debug('----Method---');  
         Id voterId = getVoter(email);
-        List<CandidateNomination__c>  nominees  = [SELECT Id, NominationId__c, Nominees__c FROM CandidateNomination__c WHERE NominationId__c in :finalVotes.keySet() AND Nominees__c in :finalVotes.values() AND Type__c = 'Master'];
+        System.debug('voterId-> ' + voterId);   
+        System.debug('map-> ' + finalVotes); 
+        List<CandidateNomination__c>  nominees  = [SELECT Id, NominationId__c, Nominees__c FROM CandidateNomination__c 
+                                                    WHERE NominationId__c in :finalVotes.keySet() 
+                                                    AND Nominees__c in :finalVotes.values() AND Type__c = 'Master'];
+        System.debug('nominees-> ' + nominees);                                            
         List<Vote__c> votes = new List<Vote__c>();
         for(CandidateNomination__c cnItem : nominees){
             if(cnItem.Nominees__c == finalVotes.get(cnItem.NominationId__c)){
@@ -54,5 +60,11 @@ public with sharing class VotingController {
         } catch (DmlException ex){
             throw new AuraHandledException(ex.getDmlMessage(0));
         }
+    }
+
+    @AuraEnabled
+    public static String getDescription(Id contactId, Id nominationId){
+        return [SELECT Description__c FROM CandidateNomination__c WHERE NominationId__c = :nominationId 
+                    AND Nominees__c = :contactId AND Type__c = 'Master'][0].Description__c;     
     }
 }
