@@ -1,11 +1,11 @@
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { LightningElement, wire, track} from 'lwc';
 import getCampaignList from '@salesforce/apex/VotingController.getCampaignList';
 import getNominationList from '@salesforce/apex/VotingController.getNominationList';
 import createVote from '@salesforce/apex/VotingController.createVote';
 import getContactList from '@salesforce/apex/VotingController.getContactList';
-import getDescription from '@salesforce/apex/VotingController.getDescription';
+ import getDescription from '@salesforce/apex/VotingController.getDescription';
 import { NavigationMixin } from 'lightning/navigation';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class VotingPage extends NavigationMixin(LightningElement) {
     queryTerm; 
