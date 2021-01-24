@@ -1,5 +1,5 @@
 .campaign-name {
-    text-align: left;
+    text-align: center;
     width: 30%;
     margin: 1%;
     font-weight: normal;
@@ -22,10 +22,10 @@
     margin-left: 1%;
     height: 300px;
     clear: both;
-    background-color: rgb(103, 178, 248);
+    background-color: rgb(241, 248, 255);
 }
 .wrapper:nth-child(odd){
-    background-color: rgb(79, 153, 223);
+    background-color: rgb(235, 235, 235);
 }
 
 .nomonation-title {
@@ -54,7 +54,7 @@
 }
 
 .fields-wrapper:hover {
-    background-color: rgb(39, 79, 131);
+    background-color: rgb(225, 238, 255);
     cursor: pointer;
 }
 

@@ -1,82 +1,42 @@
-template{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: black;
-    padding: 10px;
-    left: 1cm;
-}
-
-lightning-layout-item{
-    font-family: Arial, Verdana, sans-serif;
+.campaign-name {
+    text-align: left;
+    width: 30%;
+    margin: 1%;
+    font-weight: normal;
     font-size: 15px;
-    color: black;
-    padding: 10px;
+}
+.wrapper{
+    margin: 0, 1%;
+    height: 100px;
+    /* clear: both; */
 }
 
-lightning-combobox{
-    font-family: Arial, Verdana, sans-serif;
-    color: #434343;
-    padding: 10px;
-}
-lightning-record-view-form{
-    padding: 2cm;
-}
-
-div.box{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color: #434343;
-    cursor: pointer; 
-    padding: 15px;
-    border: 1px solid #adadad;
-    background-color: #e9eeff;
-}
-.box:hover{
-    background-color: #c3d1ff;
+.fields-wrapper {
+    border: 1px solid rgb(182, 182, 182);
+    border-radius: 10px;
+    margin-left: 1%;
+    margin-right: 1%;
+    width: 23%;
+    float: left;
+    /* background-color: rgb(248, 247, 244); */
 }
 
-lightning-input{
-    font-family: Arial, Verdana, sans-serif;
-    cursor: text;
-    padding: 10px;
-} 
-
-lightning-input-rich-text{
-    font-family: Arial, Verdana, sans-serif;
-    cursor: text;
-    padding: 10px;
+.fields-wrapper:hover {
+    background-color: rgb(210, 230, 255);
+    cursor: pointer;
 }
 
-lightning-button.button{
-    padding: 45%;
+.profile-picture {
+    float: right;
+    object-fit: cover;
 }
 
-p{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
-    color: #2b2b2b;
-    /* left: 40px; */
-    padding: 10px;
-    position: static;
-}
-p.err{
-    color: #ad0000;
+.inline-field {
+    height: 100px;
+    width: 100px;
+    float: left;
 }
 
-
-
-/* form{
-    padding: 15px;
-} */
-.button-end{
-    border: 1px solid black;
-    background-color: #ff000065;
-    border-radius: 6px;
-    font-size: 20px;
-}
-.button-end:focus{
-    border: 1px solid black;
-    background-color: #96000065;
-}
-.button-end:hover {
-    background-color: #af4c4c; 
-    color: white;
+.button-submit {
+    margin: 1%;
 }
