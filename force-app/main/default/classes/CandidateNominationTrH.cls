@@ -1,19 +1,27 @@
-public with sharing class CandidateNominationTrH implements ITriggerHandler{
-
-    public void BeforeInsert(List<SObject> newRecord) {
+public class CandidateNominationTrH extends ITriggerHandler{
+    
+    public override void BeforeInsert(List<SObject> newRecord) {
         Set<Id> nominationsIds = new Set<Id>();
         Set<Id> nomineesIds = new Set<Id>();
         List<CandidateNomination__c> newCNRecord = (List<CandidateNomination__c>)newRecord;
         for(CandidateNomination__c cnItem : newCNRecord){
+            cnItem.Key__c = (String)cnItem.NominationId__c + (String)cnItem.Nominees__c + (String)System.UserInfo.getUserId();
             nominationsIds.add(cnItem.NominationId__c);
             nomineesIds.add(cnItem.Nominees__c);
         }
-        List<CandidateNomination__c> master_candidates = [SELECT ID, NominationId__c, Nominees__c, Description__c, Type__c, CreatedById
-                                                        FROM CandidateNomination__c WHERE Type__c = 'Master' AND NominationId__c IN :nominationsIds AND Nominees__c IN :nomineesIds];                             
+        List<CandidateNomination__c> master_candidates = [SELECT ID, NominationId__c, Nominees__c, Description__c, Type__c, Key__c
+                                                        FROM CandidateNomination__c WHERE NominationId__c IN :nominationsIds AND Nominees__c IN :nomineesIds];                             
+        Set<String> keysCN = new Set<String>();     
+        for (CandidateNomination__c  ccmaster : master_candidates){
+            keysCN.add(ccmaster.Key__c);
+        }   
         for (CandidateNomination__c cc : newCNRecord) {
+            if(keysCN.contains(cc.Key__c)){
+                cc.addError('You have already nominated this person in this category!');
+            }
             cc.Type__c = 'Master';
             for (CandidateNomination__c  ccmaster : master_candidates) {
-                if(cc.NominationId__c == ccmaster.NominationId__c && cc.Nominees__c == ccmaster.Nominees__c){
+                if(ccmaster.Type__c == 'Master' && cc.NominationId__c == ccmaster.NominationId__c && cc.Nominees__c == ccmaster.Nominees__c){
                     cc.Type__c = 'Child';
                     cc.MasterRecordID__c = ccmaster.Id;
                 }
@@ -24,7 +32,7 @@ public with sharing class CandidateNominationTrH implements ITriggerHandler{
         }
     }
 
-    public void BeforeDelete(Map<Id, SObject> delRecord) {
+    public override void BeforeDelete(Map<Id, SObject> delRecord) {
         Set<String> deleted_cc_id = new Set<String>();
         for(CandidateNomination__c cc : (List<CandidateNomination__c>)delRecord.values()){
             deleted_cc_id.add(cc.id);
@@ -46,11 +54,4 @@ public with sharing class CandidateNominationTrH implements ITriggerHandler{
         }
         update childsForChangesList;
     }
-
-    public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){}
-    public void AfterInsert(Map<Id, SObject> newItems){}
-    public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){}
-    public void AfterDelete(Map<Id, SObject> oldItems){}
-    public void AfterUndelete(Map<Id, SObject> oldItems){}
-
 }
