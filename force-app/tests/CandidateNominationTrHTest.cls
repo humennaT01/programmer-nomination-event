@@ -3,15 +3,15 @@ public class CandidateNominationTrHTest {
 
     @testSetup
     static void makeData(){
-        Campaign campaign = ModelUtils.buildCampaign();
+        Campaign campaign = TestUtils.buildCampaign();
         insert campaign;
-        Nomination__c nomination = ModelUtils.buildNomination(campaign);
+        Nomination__c nomination = TestUtils.buildNomination(campaign);
         insert nomination;
-        Contact contact = ModelUtils.buildContact();
+        Contact contact = TestUtils.buildContact();
         insert contact;
-        CandidateNomination__c nominee = ModelUtils.buildCandidateNomination(nomination, contact);
+        CandidateNomination__c nominee = TestUtils.buildCandidateNomination(nomination, contact);
         insert nominee;
-        User systemAdminUser = ModelUtils.buildSystemAdministrator();
+        User systemAdminUser = TestUtils.buildSystemAdministrator();
         insert systemAdminUser;
 }
     @isTest
@@ -39,9 +39,9 @@ public class CandidateNominationTrHTest {
         System.assertEquals(master.Id, childUpdated.MasterRecordID__c);
     } 
     @isTest static void testMasterDeletion() {
-        User systemAdminUser2 = ModelUtils.buildSystemAdministrator();
+        User systemAdminUser2 = TestUtils.buildSystemAdministrator();
         insert systemAdminUser2;
-        User systemAdminUser3 = ModelUtils.buildSystemAdministrator();
+        User systemAdminUser3 = TestUtils.buildSystemAdministrator();
         insert systemAdminUser3;
         CandidateNomination__c master = [SELECT Nominees__c, NominationId__c, Type__c, MasterRecordID__c FROM CandidateNomination__c];
         CandidateNomination__c firstChild = new CandidateNomination__c(NominationId__c = master.NominationId__c, Nominees__c = master.Nominees__c, Description__c = 'Child1');
@@ -66,7 +66,7 @@ public class CandidateNominationTrHTest {
     static void testDuplicateInsert() {
         Nomination__c testNomination = [SELECT Id FROM Nomination__c WHERE Name = 'Test Nomination'];
         Contact testContact = [SELECT Id FROM Contact WHERE LastName = 'Test LastName'];
-        CandidateNomination__c candidate = ModelUtils.buildCandidateNomination(testNomination, testContact);
+        CandidateNomination__c candidate = TestUtils.buildCandidateNomination(testNomination, testContact);
         Test.startTest();
         Database.SaveResult resultForDuplicate = Database.insert(candidate, false);
         Test.stopTest();
@@ -75,5 +75,6 @@ public class CandidateNominationTrHTest {
         System.assertEquals('You have already nominated this person in this category!',
                 resultForDuplicate.getErrors()[0].getMessage());
     }
+
 }
 

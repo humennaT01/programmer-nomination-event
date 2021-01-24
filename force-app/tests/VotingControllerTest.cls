@@ -3,17 +3,17 @@ public with sharing class VotingControllerTest {
 
     @TestSetup
     static void makeData(){
-        Campaign campaign = ModelUtils.buildCampaign();
+        Campaign campaign = TestUtils.buildCampaign();
         insert campaign;
-        Nomination__c nomination = ModelUtils.buildNomination(campaign);
+        Nomination__c nomination = TestUtils.buildNomination(campaign);
         insert nomination;
-        Contact contact = ModelUtils.buildContact();
+        Contact contact = TestUtils.buildContact();
         insert contact;
-        Contact voter = ModelUtils.buildContactWithEmail();
+        Contact voter = TestUtils.buildContactWithEmail();
         insert voter;
-        CandidateNomination__c nominee = ModelUtils.buildCandidateNomination(nomination, contact);
+        CandidateNomination__c nominee = TestUtils.buildCandidateNomination(nomination, contact);
         insert nominee;
-        User adminUser = ModelUtils.buildSystemAdministrator();
+        User adminUser = TestUtils.buildSystemAdministrator();
         insert adminUser;
     }
     

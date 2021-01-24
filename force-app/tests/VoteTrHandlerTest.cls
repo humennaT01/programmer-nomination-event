@@ -3,19 +3,19 @@ public with sharing class VoteTrHandlerTest {
     
     @TestSetup
     static void makeData(){
-        Campaign campaign = ModelUtils.buildCampaign();
+        Campaign campaign = TestUtils.buildCampaign();
         insert campaign;
-        Nomination__c nomination = ModelUtils.buildNomination(campaign);
+        Nomination__c nomination = TestUtils.buildNomination(campaign);
         insert nomination;
-        Contact contact = ModelUtils.buildContact();
+        Contact contact = TestUtils.buildContact();
         insert contact;
-        Contact voter = ModelUtils.buildContactWithEmail();
+        Contact voter = TestUtils.buildContactWithEmail();
         insert voter;
-        CandidateNomination__c nominee = ModelUtils.buildCandidateNomination(nomination, contact);
+        CandidateNomination__c nominee = TestUtils.buildCandidateNomination(nomination, contact);
         insert nominee;
-        User standartUser = ModelUtils.buildStandartUser();
+        User standartUser = TestUtils.buildStandartUser();
         insert standartUser;
-        User adminUser = ModelUtils.buildSystemAdministrator();
+        User adminUser = TestUtils.buildSystemAdministrator();
         insert adminUser;
     }
 
@@ -80,7 +80,7 @@ public with sharing class VoteTrHandlerTest {
         CandidateNomination__c nominee1 = [SELECT Id, NominationId__c, Nominees__c, Description__c  FROM CandidateNomination__c LIMIT 1];
         CandidateNomination__c nominee2 = new CandidateNomination__c(Nominees__c = contact.Id, NominationId__c = nomination.Id, Description__c='Test Discription2');
         
-        User user = ModelUtils.buildSystemAdministrator();
+        User user = TestUtils.buildSystemAdministrator();
         insert user;
         System.runAs(user) {
             insert nominee2; 
