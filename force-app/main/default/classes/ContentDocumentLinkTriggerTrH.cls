@@ -1,6 +1,6 @@
-public with sharing class ContentDocumentLinkTriggerTrH implements ITriggerHandler {
-    public void BeforeInsert(List<SObject> newItems){}
-    public void AfterInsert(Map<Id, SObject> newItems){
+public with sharing class ContentDocumentLinkTriggerTrH extends ITriggerHandler {
+    // public void BeforeInsert(List<SObject> newItems){}
+    public override void AfterInsert(Map<Id, SObject> newItems){
         List<ContentDocumentLink> contDocList = newItems.values();
         Set<Id> contDocIds = new Set<Id>();
         Set<Id> contactIds = new Set<Id>();
@@ -21,10 +21,4 @@ public with sharing class ContentDocumentLinkTriggerTrH implements ITriggerHandl
         }
         update contactMap.values();
     }
-    public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){}
-    public void BeforeDelete(Map<Id, SObject> oldItems){}
-    public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){}
-    public void AfterDelete(Map<Id, SObject> oldItems){}
-    public void AfterUndelete(Map<Id, SObject> oldItems){}
-    
 }
