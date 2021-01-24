@@ -7,7 +7,7 @@ public with sharing class VotingController {
         for(CandidateNomination__c itemCN : cnWithCurrentNomination){
             nominees.add(itemCN.Nominees__c);
         }
-        Map<Id, Contact> contactMap = new Map<Id, Contact>([SELECT Id, FirstName, LastName, Department FROM Contact WHERE Id IN :nominees]);
+        Map<Id, Contact> contactMap = new Map<Id, Contact>([SELECT Id, FirstName, LastName, Department, Avatar__c FROM Contact WHERE Id IN :nominees]);
         Map<Id, List<Contact>> nomineesInNomination = new Map<Id, List<Contact>>();
         for(Nomination__c nominationItem : nominations){
             List<Contact> nomineesForNomination = new List<Contact>();
@@ -23,32 +23,34 @@ public with sharing class VotingController {
 
     @AuraEnabled
     public static List<Nomination__c> getNominationList(Id campaign){
-        List<Nomination__c> nominations = [SELECT Id, Name FROM Nomination__c WHERE CampaignId__c = :campaign];
+        List<Nomination__c> nominations = [SELECT Id, Name, Avatar__c FROM Nomination__c WHERE CampaignId__c = :campaign];
         return nominations;
     }
 
     @AuraEnabled
     public static Campaign getCampaignList(){
-        Campaign campaignC =  [SELECT Id, Name FROM Campaign WHERE Type = 'Voting'  AND IsActive = true][0];
-        return campaignC;
+        List<Campaign> campaignC =  [SELECT Id, Name FROM Campaign WHERE Type = 'Voting'  AND IsActive = true];
+        return campaignC[0];
     }
 
 
-    private static Id getVoter(String email){
-        Contact voter = [SELECT Id FROM Contact WHERE Email = :email];
-        return voter.Id;
+    private static Id getVoter(String UUID){
+        try{
+            Contact voter = [SELECT Id FROM Contact WHERE UUID__c = :UUID LIMIT 1];
+            return voter.Id;
+        } catch (QueryException qe){
+            throw new AuraHandledException('User with such UUID doesn\'t exist');
+        }
+        
     }
 
     @AuraEnabled
-    public static void createVote(Map<Id, Id> finalVotes, String email) {
-        System.debug('----Method---');  
-        Id voterId = getVoter(email);
-        System.debug('voterId-> ' + voterId);   
-        System.debug('map-> ' + finalVotes); 
-        List<CandidateNomination__c>  nominees  = [SELECT Id, NominationId__c, Nominees__c FROM CandidateNomination__c 
-                                                    WHERE NominationId__c in :finalVotes.keySet() 
-                                                    AND Nominees__c in :finalVotes.values() AND Type__c = 'Master'];
-        System.debug('nominees-> ' + nominees);                                            
+    public static void createVote(Map<Id, Id> finalVotes, String UUID) {
+        if(finalVotes.isEmpty()){
+            throw new AuraHandledException('Please select at least one nominee!');
+        }
+        Id voterId = getVoter(UUID);
+        List<CandidateNomination__c>  nominees  = [SELECT Id, NominationId__c, Nominees__c FROM CandidateNomination__c WHERE NominationId__c in :finalVotes.keySet() AND Nominees__c in :finalVotes.values() AND Type__c = 'Master'];
         List<Vote__c> votes = new List<Vote__c>();
         for(CandidateNomination__c cnItem : nominees){
             if(cnItem.Nominees__c == finalVotes.get(cnItem.NominationId__c)){
@@ -57,14 +59,13 @@ public with sharing class VotingController {
         }
         try{
             insert votes;
-        } catch (DmlException ex){
-            throw new AuraHandledException(ex.getDmlMessage(0));
+        } catch (DmlException de){
+            throw new AuraHandledException(de.getDmlMessage(0));
         }
     }
 
     @AuraEnabled
     public static String getDescription(Id contactId, Id nominationId){
-        return [SELECT Description__c FROM CandidateNomination__c WHERE NominationId__c = :nominationId 
-                    AND Nominees__c = :contactId AND Type__c = 'Master'][0].Description__c;     
+        return [SELECT Description__c FROM CandidateNomination__c WHERE NominationId__c = :nominationId AND Nominees__c = :contactId AND Type__c = 'Master' LIMIT 1].Description__c;     
     }
 }
