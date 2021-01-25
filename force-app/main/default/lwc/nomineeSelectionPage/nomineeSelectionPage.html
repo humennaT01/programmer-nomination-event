@@ -4,12 +4,13 @@
             <template if:true={campaigns}>
                 <lightning-layout-item>
                     <lightning-combobox class="campaign-name"
-                    name="campaign"
-                    label="Campaign"
-                    value={selectedCampaign}
-                    placeholder="Select Campaign"
-                    options={campaignOptions}
-                    onchange={handleCampaignChange} ></lightning-combobox>
+                        name="campaign"
+                        label="Campaign"
+                        value={selectedCampaign}
+                        placeholder="Select Campaign"
+                        options={campaignOptions}
+                        onchange={handleCampaignChange} >
+                    </lightning-combobox>
                 </lightning-layout-item>
                 <template if:true={nominations}>
                     <lightning-layout-item>
@@ -68,7 +69,6 @@
         </template>
         <template if:true={hasVoted}>
             <p class='campaign-name'>Thank you for selecting Nominee!</p>
-            <a href='/lightning/page/home' class='campaign-name'>Return to Home</a>
-        </template> 
+          </template> 
     </lightning-card>
 </template>

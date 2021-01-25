@@ -4,5 +4,6 @@
     <isExposed>true</isExposed>
     <targets>
         <target>lightning__AppPage</target>
+        <target>lightningCommunity__Page</target>
     </targets>
 </LightningComponentBundle>

@@ -4,6 +4,8 @@ import getContactList from '@salesforce/apex/NomineeSelectionController.getConta
 import getNominationList from '@salesforce/apex/NomineeSelectionController.getNominationList';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { LightningElement, wire } from 'lwc';
+import { CurrentPageReference } from 'lightning/navigation';
+
 
 export default class NomineeSelectionPage extends LightningElement {
     queryTerm; 
@@ -15,6 +17,20 @@ export default class NomineeSelectionPage extends LightningElement {
     selectedContact;
     description;
     hasVoted = false;
+    contactUUID = '';
+
+    @wire(CurrentPageReference)
+    getStateParameters(currentPageReference) {
+        if (currentPageReference) {
+           this.urlStateParameters = currentPageReference.state;
+           this.setParametersBasedOnUrl();
+        }
+    }
+
+    setParametersBasedOnUrl() {
+        this.contactUUID = this.urlStateParameters.contactuuid || null;
+    }
+
     @wire(getContactList, {queryTerm:'$queryTerm'})
     wiredContacts(response){
         this.contacts = response.data;
@@ -52,7 +68,7 @@ export default class NomineeSelectionPage extends LightningElement {
             );
         }else{
 
-            createNominee({nominationId: this.selectedNomination, contactId: this.selectedContact, description: this.description})
+            createNominee({nominationId: this.selectedNomination, contactId: this.selectedContact, description: this.description, UUID: this.contactUUID})
             .then( () => {
                 this.hasVoted = true;
                 this.dispatchEvent(
@@ -77,7 +93,7 @@ export default class NomineeSelectionPage extends LightningElement {
     }
 
     handleClickViewForm(evt) {
-        evt.currentTarget.style.backgroundColor = 'rgb(40, 127, 241)';
+        evt.currentTarget.style.backgroundColor = 'rgb(182, 207, 255)';
         this.selectedContact = evt.currentTarget.dataset.id;
         console.log (this.selectedContact);
     }
@@ -101,5 +117,4 @@ export default class NomineeSelectionPage extends LightningElement {
     handleCampaignChange(event) {
         this.selectedCampaign = event.detail.value;
     }
-
 }

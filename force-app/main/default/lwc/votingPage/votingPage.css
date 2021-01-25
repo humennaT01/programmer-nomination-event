@@ -17,7 +17,6 @@
 
 .wrapper{
     border: 1px solid rgb(13, 14, 12);
-    border-radius: 10px;
     margin-right: 1%;
     margin-left: 1%;
     height: 300px;
@@ -46,11 +45,9 @@
 
 .fields-wrapper {
     border: 1px solid rgb(13, 14, 12);
-    border-radius: 10px;
     width: 19%;
     margin: 5px;
     float: left;
-    /* background-color: rgb(248, 247, 244); */
 }
 
 .fields-wrapper:hover {
@@ -60,7 +57,6 @@
 
 .contact-field {
     border: 1px solid rgb(16, 17, 3);
-    border-radius: 10px;
     width: 100px;
     height: 280px;
     float: left;
@@ -76,7 +72,5 @@
 .description-field {
     width: 100%;
     text-align: left;
-    /* margin: 1%; */
-    /* margin-left: 10px; */
     margin-right: 10px;
 }

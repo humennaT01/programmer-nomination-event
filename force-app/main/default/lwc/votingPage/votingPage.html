@@ -2,7 +2,6 @@
     <lightning-card>
         <template if:false={hasVoted}>
             <div>
-                <lightning-input class="email-input" type="email" label="Enter your email address" onchange={handleEmailChange}></lightning-input>
                 <template if:true={campaign}>
                     <div class='campaign-name'>
                         <p>Current campaign: {campaign.Name}</p>
@@ -61,6 +60,5 @@
         <template if:true={hasVoted}>
             <p class='campaign-name'>Thank you for your vote!</p>
         </template>   
-        <lightning-button label="Go to Home" class="slds-var-m-around_medium" onclick={navigateToHome}></lightning-button> 
     </lightning-card>
 </template>
